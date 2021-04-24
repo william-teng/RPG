@@ -10,3 +10,6 @@ All notable changes to this project will be documented in this file.
 ## v1.1 - 2021-04-19
 - Added a menu
 - Added a loop for continuous game play
+
+## v1.2 - 2021-04-23
+- Added a map
