@@ -1,147 +1,112 @@
 # Course: CS 30
 # Period: 1
-# Date created: 21/04/02
-# Date modified: 21/04/08
+# Date created: 21/04/18
+# Date modified: 21/04/23
 # Name: William Teng
-# Description: RPG nested dictionaries
+# Description: RPG modules and maps
 
-# Playable characters in the RPG game
-characters = {
-  'john': {
-    'race': 'human', 'health_points': '100'
-    },
+import random
+from tabulate import tabulate
 
-  'bob': {
-    'race': 'goblin', 'health_points': '50'
-    },
 
-  'tim': {
-    'race': 'orc', 'health_points': '150'
-    },
+def append_list(dictionary, list):
+  """Create a list from elements of a dictionary"""
+  for x in dictionary:
+    list.append(x)
 
-  }
 
-# Prints each character's information
-for character, character_info in characters.items():
-  print(f"\nCharacter: {character.title()}")
-  race = character_info['race']
-  health_points = character_info['health_points']
+def replace_tile(list, tile1, tile2):
+  """Make sure that tiles do not overwrite each other"""
+  while random_tile(list, tile1) == random_tile(list, tile2):
+    random_tile(list, tile1)
+    random_tile(list, tile2)
 
-  print(f"{character.title()}'s race is {race}.")
-  print(f"{character.title()} has {health_points} health points.")
 
-# John's inventory
-# Includes a sword and a healing potion
-john_inventory = {
-  'sword': {
-    'description': 'a long metal blade', 'damage': '50', 'protection': '50'
-    },
+def random_tile(list, tile):
+  """Choose a random tile to replace and return the indices"""
+  x = random.choice(list)
+  y = random.choice(x)
+  n = list.index(x)
+  m = x.index(y)
+  list[n][m] = tile
+  return (n, m)
 
-  'healing potion': {
-    'description': 'heals 50 health points', 'damage': '0', 'protection': '0'
-  },
 
-  }
+def generate_map(list):
+  """Randomly generate a 5x5 map from tile types"""
+  map = [[random.choice(list) for i in range(5)] for j in range(5)]
+  # add boss and start tiles
+  replace_tile(map, "Big Boss", "Start")
+  return map
 
-# Lists John's inventory
-print("\nJohn's Inventory:")
 
-# Prints John's inventory and it's description
-for item, item_info in john_inventory.items():
-  print(f"* {item.title()}")
-  description = item_info['description']
-  damage = item_info['damage']
-  protection = item_info['protection']
+def print_map(dictionary):
+  """Print out each map generated"""
+  for key in dictionary:
+    map = dictionary[key]
+    print(f"{key}")
+    # format the maps in rows and columns
+    print(tabulate(map, tablefmt="plain"))
+    print ("\n")
 
-  print(f"\tdescription: {description}")
-  print(f"\tdamage: {damage}")
-  print(f"\tprotection: {protection}")
 
-# Bob's inventory
-# Includes a dagger and a stealth potion
-bob_inventory = {
-  'dagger': {
-    'description': 'a short edged knife', 'damage': '100', 'protection': '0'
-    },
-
-  'stealth potion': {
-    'description': 'increases chance to evade enemy',
-    'damage': '0', 'protection': '0'
-    },
-
-  }
-
-# Lists Bob's inventory
-print("\nBob's Inventory:")
-
-# Print's Bob's inventory and it's description
-for item, item_info in bob_inventory.items():
-  print(f"* {item.title()}")
-  description = item_info['description']
-  damage = item_info['damage']
-  protection = item_info['protection']
-
-  print(f"\tdescription: {description}")
-  print(f"\tdamage: {damage}")
-  print(f"\tprotection: {protection}")
-
-# Tim's inventory
-# Includes a mace and a strength potion
-tim_inventory = {
-  'mace': {
-    'description': 'a club with spikes', 'damage': '75', 'protection': '25'
-    },
-
-  'strength potion': {
-    'description': 'gain 25 strength points', 'damage': '0', 'protection': '0'
-    },
-
-  }
-
-# Lists Tim's inventory
-print("\nTim's Inventory:")
-
-# Prints Tim's inventory and it's description
-for item, item_info in tim_inventory.items():
-  print(f"* {item.title()}")
-  description = item_info['description']
-  damage = item_info['damage']
-  protection = item_info['protection']
-
-  print(f"\tdescription: {description}")
-  print(f"\tdamage: {damage}")
-  print(f"\tprotection: {protection}")
-
-# Locations in the RPG game
+# game locations
 locations = {
-  'enemy tile': {
-    'description': 'This is a location of an enemy. '
-    'You must defeat the enemy to continue'
+  "Castle": "a fortified medieval building", "Fortress": "a stronghold"
+  }
+
+# map tile types
+map_tiles = {
+  "Enemy": {
+    "description": "location of an enemy", "abbreviation": "ET", "action":
+    "must defeat the enemy to continue"
     },
 
-  'boss tile': {
-    'description': 'This is a location of a Big Boss enemy. '
-    'You may run away or fight the boss to continue'
+  "Big Boss": {
+    "description": "Big Boss enemy location and the exit for the location",
+    "abbreviation": "BT",
+    "action": "may run away or fight the boss to continue"
     },
 
-  'weapons tile': {
-    'description': 'This is a location of a weapon. '
-    'You may pick up the item or move to another location'
+  "Weapons": {
+    "description": "location of a weapon",
+    "abbreviation": "WT",
+    "action": "may pick up items or move to another location"
     },
 
-  'supply tile': {
-    'description': 'This is a location of potion and protection items. '
-    'You may pick up the item or move to another location'
+  "Supplies": {
+    "description": "location of protection and healing items",
+    "abbreviation": "ST",
+    "action": "must pick up the weapon to continue"
     },
 
-  'blank tile': {
-    'description': 'This is a location with no items. '
-    'You may rest or move to another location'
+  " ": {
+    "description": "location with no items",
+    "abbreviation": "BT",
+    "action": "may rest or move to another location"
+    },
+
+  "Start": {
+    "description": "entrance to the location",
+    "abbreviation": "S",
+    "action": "may rest or move to another location"
     },
 
   }
 
-# Prints each location and it's description
-for location, description in locations.items():
-  description = description['description']
-  print(f"\nYou are on a {location.title()}. {description}.")
+# generate a list of locations
+location_level = []
+append_list(locations, location_level)
+# generate a list of tile types removing the start and boss tiles
+tile_types = []
+append_list(map_tiles, tile_types)
+tile_types.remove("Big Boss")
+tile_types.remove("Start")
+
+# organize each city level and its map in a dictionary
+main_map = {}
+for location in location_level:
+  location_map = generate_map(tile_types)
+  main_map[location] = location_map
+
+print_map(main_map)
