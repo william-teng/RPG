@@ -104,37 +104,3 @@ for item, item_info in tim_inventory.items():
   print(f"\tdescription: {description}")
   print(f"\tdamage: {damage}")
   print(f"\tprotection: {protection}")
-
-# Locations in the RPG game
-locations = {
-  'enemy tile': {
-    'description': 'This is a location of an enemy. '
-    'You must defeat the enemy to continue'
-    },
-
-  'boss tile': {
-    'description': 'This is a location of a Big Boss enemy. '
-    'You may run away or fight the boss to continue'
-    },
-
-  'weapons tile': {
-    'description': 'This is a location of a weapon. '
-    'You may pick up the item or move to another location'
-    },
-
-  'supply tile': {
-    'description': 'This is a location of potion and protection items. '
-    'You may pick up the item or move to another location'
-    },
-
-  'blank tile': {
-    'description': 'This is a location with no items. '
-    'You may rest or move to another location'
-    },
-
-  }
-
-# Prints each location and it's description
-for location, description in locations.items():
-  description = description['description']
-  print(f"\nYou are on a {location.title()}. {description}.")
