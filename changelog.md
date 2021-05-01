@@ -34,3 +34,8 @@ All notable changes to this project will be documented in this file.
 - Added a visual map to different rooms in the castle
 - Modified player interactions with enemy
 - Modified text outputs
+
+## v1.7
+- Final bug fixes and adjustments
+- Added more comments
+- Game is now finished
