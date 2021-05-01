@@ -1,112 +1,152 @@
 # Course: CS 30
 # Period: 1
-# Date created: 21/04/18
-# Date modified: 21/04/23
+# Date: 21/04/30
 # Name: William Teng
-# Description: RPG modules and maps
+# Description: RPG Game
 
 import random
 from tabulate import tabulate
+import map
+from map import *
+from map_display import *
+from player import Player
+import room
+
+# Introduction message
+print("Welcome to Castle Adventure!\n")
+# Prints a visual map for the user to see
+print("CASTLE MAP:")
+print(map_display_1)
+print(map_display_2)
+print(map_display_3)
 
 
-def append_list(dictionary, list):
-  """Create a list from elements of a dictionary"""
-  for x in dictionary:
-    list.append(x)
+def area():
+    global castle
+    """Player is able to move around the map"""
+    while True:
+        # Instructions on the game
+        print("\nINSTRUCTIONS:")
+        print("* Your objective is to move to the 'end' tile.")
+        print("* You are 'PLAYER', as shown on the map.")
+        print("* You will encounter enemies as you move.")
+        print("* If you recieve no message, it means\
+ you are on an empty tile.")
+        print("* Be cautious and do not leave the map area.")
+        print("* Type 'q' if you wish to quit.")
+        print("\nType to move in the following: up, right, down, left")
+        # The player can input actions in four directions
+        user = input('Action: ')
+        user = user.lower()
+        # The player is trying to go up
+        if user == 'up':
+            # Locates player in the castle
+            for y, row in enumerate(map.castle):
+                for x, object in enumerate(row):
+                    if isinstance(object, Player):
+                        if isinstance(map.castle[y - 1][x], armoury):
+                            room.armoury()
+                        elif isinstance(map.castle[y - 1][x], void):
+                            room.void()
+                        elif isinstance(map.castle[y - 1][x], kitchen):
+                            room.kitchen()
+                        elif isinstance(map.castle[y - 1][x], dungeon):
+                            room.dungeon()
+                        elif isinstance(map.castle[y - 1][x], chapel):
+                            room.chapel()
+                        elif isinstance(map.castle[y - 1][x], finish):
+                            room.finish()
+                        else:
+                            # The player goes up
+                            map.castle[y - 1][x] = object
+                            # None tile is replaced
+                            map.castle[y][x] = None
+                            area()
+                            # Returns the new position
+                            return
+        # The player is trying to go right
+        elif user == 'right':
+            # Locates player in the castle
+            for y, row in enumerate(map.castle):
+                for x, object in enumerate(row):
+                    if isinstance(object, Player):
+                        if isinstance(map.castle[y][x + 1], armoury):
+                            room.armoury()
+                        elif isinstance(map.castle[y][x + 1], void):
+                            room.void()
+                        elif isinstance(map.castle[y][x + 1], kitchen):
+                            room.kitchen()
+                        elif isinstance(map.castle[y][x + 1], dungeon):
+                            room.dungeon()
+                        elif isinstance(map.castle[y][x + 1], chapel):
+                            room.chapel()
+                        elif isinstance(map.castle[y][x + 1], finish):
+                            room.finish()
+                        else:
+                            # The player goes right
+                            map.castle[y][x + 1] = object
+                            # None tile is replaced
+                            map.castle[y][x] = None
+                            area()
+                            # Returns the new position
+                            return
+        # The player is trying to go down
+        elif user == 'down':
+            # Locates player in the castle
+            for y, row in enumerate(map.castle):
+                for x, object in enumerate(row):
+                    if isinstance(object, Player):
+                        if isinstance(map.castle[y + 1][x], armoury):
+                            room.armoury()
+                        elif isinstance(map.castle[y + 1][x], void):
+                            room.void()
+                        elif isinstance(map.castle[y + 1][x], kitchen):
+                            room.kitchen()
+                        elif isinstance(map.castle[y + 1][x], dungeon):
+                            room.dungeon()
+                        elif isinstance(map.castle[y + 1][x], chapel):
+                            room.chapel()
+                        elif isinstance(map.castle[y + 1][x], finish):
+                            room.finish()
+                        else:
+                            # The player goes down
+                            map.castle[y + 1][x] = object
+                            # None tile is replaced
+                            map.castle[y][x] = None
+                            area()
+                            # Returns the new position
+                            return
+        # The player is trying to go left
+        elif user == 'left':
+            # Locates player in the castle
+            for y, row in enumerate(map.castle):
+                for x, object in enumerate(row):
+                    if isinstance(object, Player):
+                        if isinstance(map.castle[y][x - 1], armoury):
+                            room.armoury()
+                        elif isinstance(map.castle[y][x - 1], void):
+                            room.void()
+                        elif isinstance(map.castle[y][x - 1], kitchen):
+                            room.kitchen()
+                        elif isinstance(map.castle[y][x - 1], dungeon):
+                            room.dungeon()
+                        elif isinstance(map.castle[y][x - 1], chapel):
+                            room.chapel()
+                        elif isinstance(map.castle[y][x - 1], finish):
+                            room.finish()
+                        else:
+                            # The player goes left
+                            map.castle[y][x - 1] = object
+                            # None tile is replaced
+                            map.castle[y][x] = None
+                            area()
+                            # Returns the new position
+                            return
+        # The player types q to quit
+        elif user == 'q':
+            break
+        else:
+            # An invalid command was used
+            print('Invalid! Please try again.')
 
-
-def replace_tile(list, tile1, tile2):
-  """Make sure that tiles do not overwrite each other"""
-  while random_tile(list, tile1) == random_tile(list, tile2):
-    random_tile(list, tile1)
-    random_tile(list, tile2)
-
-
-def random_tile(list, tile):
-  """Choose a random tile to replace and return the indices"""
-  x = random.choice(list)
-  y = random.choice(x)
-  n = list.index(x)
-  m = x.index(y)
-  list[n][m] = tile
-  return (n, m)
-
-
-def generate_map(list):
-  """Randomly generate a 5x5 map from tile types"""
-  map = [[random.choice(list) for i in range(5)] for j in range(5)]
-  # add boss and start tiles
-  replace_tile(map, "Big Boss", "Start")
-  return map
-
-
-def print_map(dictionary):
-  """Print out each map generated"""
-  for key in dictionary:
-    map = dictionary[key]
-    print(f"{key}")
-    # format the maps in rows and columns
-    print(tabulate(map, tablefmt="plain"))
-    print ("\n")
-
-
-# game locations
-locations = {
-  "Castle": "a fortified medieval building", "Fortress": "a stronghold"
-  }
-
-# map tile types
-map_tiles = {
-  "Enemy": {
-    "description": "location of an enemy", "abbreviation": "ET", "action":
-    "must defeat the enemy to continue"
-    },
-
-  "Big Boss": {
-    "description": "Big Boss enemy location and the exit for the location",
-    "abbreviation": "BT",
-    "action": "may run away or fight the boss to continue"
-    },
-
-  "Weapons": {
-    "description": "location of a weapon",
-    "abbreviation": "WT",
-    "action": "may pick up items or move to another location"
-    },
-
-  "Supplies": {
-    "description": "location of protection and healing items",
-    "abbreviation": "ST",
-    "action": "must pick up the weapon to continue"
-    },
-
-  " ": {
-    "description": "location with no items",
-    "abbreviation": "BT",
-    "action": "may rest or move to another location"
-    },
-
-  "Start": {
-    "description": "entrance to the location",
-    "abbreviation": "S",
-    "action": "may rest or move to another location"
-    },
-
-  }
-
-# generate a list of locations
-location_level = []
-append_list(locations, location_level)
-# generate a list of tile types removing the start and boss tiles
-tile_types = []
-append_list(map_tiles, tile_types)
-tile_types.remove("Big Boss")
-tile_types.remove("Start")
-
-# organize each city level and its map in a dictionary
-main_map = {}
-for location in location_level:
-  location_map = generate_map(tile_types)
-  main_map[location] = location_map
-
-print_map(main_map)
+area()
