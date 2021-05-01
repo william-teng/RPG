@@ -2,7 +2,7 @@
 # Period: 1
 # Date: 21/04/30
 # Name: William Teng
-# Description: Enemy class
+# Description: The enemy class and it's various child classes
 
 
 # The parent class
