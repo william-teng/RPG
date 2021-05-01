@@ -2,7 +2,7 @@
 # Period: 1
 # Date: 21/04/30
 # Name: William Teng
-# Description: A visual representation of the map
+# Description: A visual representation of the map for each room
 
 # The player is on the start tile
 map_display_1 = ["Tile 1 | Tile 2 | Tile 3 "]
