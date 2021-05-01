@@ -1,112 +1,76 @@
 # Course: CS 30
 # Period: 1
-# Date created: 21/04/18
-# Date modified: 21/04/23
+# Date: 21/04/30
 # Name: William Teng
-# Description: RPG modules and maps
+# Description: Map
 
-import random
-from tabulate import tabulate
+from player import Player
 
-
-def append_list(dictionary, list):
-  """Create a list from elements of a dictionary"""
-  for x in dictionary:
-    list.append(x)
+player = Player(1, 2)
 
 
-def replace_tile(list, tile1, tile2):
-  """Make sure that tiles do not overwrite each other"""
-  while random_tile(list, tile1) == random_tile(list, tile2):
-    random_tile(list, tile1)
-    random_tile(list, tile2)
+# The parent class
+class Tile:
+    """Default tile for the map"""
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+    def __str__(self):
+        """The child class name is made into a string"""
+        return self.name
 
 
-def random_tile(list, tile):
-  """Choose a random tile to replace and return the indices"""
-  x = random.choice(list)
-  y = random.choice(x)
-  n = list.index(x)
-  m = x.index(y)
-  list[n][m] = tile
-  return (n, m)
+# The child class with inherited properties from Tile
+class dungeon(Tile):
+    """A strong underground prison cell"""
+    def __init__(self, x, y):
+        self.name = "dungeon"
+        super().__init__(x, y)
 
 
-def generate_map(list):
-  """Randomly generate a 5x5 map from tile types"""
-  map = [[random.choice(list) for i in range(5)] for j in range(5)]
-  # add boss and start tiles
-  replace_tile(map, "Big Boss", "Start")
-  return map
+# The child class with inherited properties from Tile
+class chapel(Tile):
+    """A room for Christian worship"""
+    def __init__(self, x, y):
+        self.name = "chapel"
+        super().__init__(x, y)
 
 
-def print_map(dictionary):
-  """Print out each map generated"""
-  for key in dictionary:
-    map = dictionary[key]
-    print(f"{key}")
-    # format the maps in rows and columns
-    print(tabulate(map, tablefmt="plain"))
-    print ("\n")
+# The child class with inherited properties from Tile
+class kitchen(Tile):
+    """A room where food is prepared and cooked"""
+    def __init__(self, x, y):
+        self.name = "kitchen"
+        super().__init__(x, y)
 
 
-# game locations
-locations = {
-  "Castle": "a fortified medieval building", "Fortress": "a stronghold"
-  }
+# The child class with inherited properties from Tile
+class armoury(Tile):
+    """A place where weapons are kept"""
+    def __init__(self, x, y):
+        self.name = "armoury"
+        super().__init__(x, y)
 
-# map tile types
-map_tiles = {
-  "Enemy": {
-    "description": "location of an enemy", "abbreviation": "ET", "action":
-    "must defeat the enemy to continue"
-    },
 
-  "Big Boss": {
-    "description": "Big Boss enemy location and the exit for the location",
-    "abbreviation": "BT",
-    "action": "may run away or fight the boss to continue"
-    },
+# The child class with inherited properties from Tile
+class void(Tile):
+    """A wall that prevents the player from leaving the map"""
+    def __init__(self, x, y):
+        self.name = "void"
+        super().__init__(x, y)
 
-  "Weapons": {
-    "description": "location of a weapon",
-    "abbreviation": "WT",
-    "action": "may pick up items or move to another location"
-    },
 
-  "Supplies": {
-    "description": "location of protection and healing items",
-    "abbreviation": "ST",
-    "action": "must pick up the weapon to continue"
-    },
+# The child class with inherited properties from Tile
+class finish(Tile):
+    """The victory tile"""
+    def __init__(self, x, y):
+        self.name = "finish"
+        super().__init__(x, y)
 
-  " ": {
-    "description": "location with no items",
-    "abbreviation": "BT",
-    "action": "may rest or move to another location"
-    },
-
-  "Start": {
-    "description": "entrance to the location",
-    "abbreviation": "S",
-    "action": "may rest or move to another location"
-    },
-
-  }
-
-# generate a list of locations
-location_level = []
-append_list(locations, location_level)
-# generate a list of tile types removing the start and boss tiles
-tile_types = []
-append_list(map_tiles, tile_types)
-tile_types.remove("Big Boss")
-tile_types.remove("Start")
-
-# organize each city level and its map in a dictionary
-main_map = {}
-for location in location_level:
-  location_map = generate_map(tile_types)
-  main_map[location] = location_map
-
-print_map(main_map)
+# Various rooms in the castle and their location
+castle = [[void(0, 0), void(1, 0), void(2, 0), void(3, 0), void(4, 0)],
+          [void(0, 1), dungeon(1, 1), kitchen(2, 1), chapel(3, 1), void(4, 1)],
+          [void(0, 2), None, None, None, void(4, 2)],
+          [void(0, 3), Player(1, 3), armoury(2, 3), finish(3, 3), void(4, 3)],
+          [void(0, 4), void(1, 4), void(2, 4), void(3, 4), void(4, 4)]]
