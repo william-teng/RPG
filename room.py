@@ -2,7 +2,7 @@
 # Period: 1
 # Date: 21/04/30
 # Name: William Teng
-# Description: Various rooms in the castle
+# Description: Interactions with each room in the castle
 
 from map import player
 from enemy import *
