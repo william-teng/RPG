@@ -1,7 +1,7 @@
 # RPG: Castle Adventure Changelog
 All notable changes to this project will be documented in this file.
 
-## [Unreleased]
+## [Finished and Ready for Release]
 
 ## v1.0
 - Added numerical list of available weapons
