@@ -1,0 +1,18 @@
+Inventory:
+    ☐ create inventory
+    ☐ remove items from inventory
+    ☐ add items to inventory
+
+Enemies:
+    ☐ create more enemies
+    ☐ add specific weapons to enemies
+    ☐ create a final boss
+    
+Player:
+    ☐ add characters that the player can choose from
+    ☐ allow the player to pick up weapons and items
+
+Map:
+    ☐ expand the map
+    ☐ create more rooms
+    ☐ allow the player to choose more maps
