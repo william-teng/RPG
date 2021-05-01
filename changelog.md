@@ -39,3 +39,9 @@ All notable changes to this project will be documented in this file.
 - Final bug fixes and adjustments
 - Added more comments
 - Game is now finished
+
+## Future Plans
+- Adding more enemies and a variety of weapons
+- Expanding the map
+- Creating different maps for the player to choose from
+- Creating different characters for the player to choose from
